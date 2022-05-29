@@ -1,20 +1,34 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func indexPage(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h1>Главная</h1>")
+}
+
+func redirectTo(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h1>Редирект на другую страницу</h1>")
+}
 
 func main() {
-	i := int(3)
-	f := float64(2.0)
-	b := bool(true)
-	s := string("zalupa")
-	fmt.Println("%v %v %v %q\n", i, f, b, s)
-	loop()
+	http.HandleFunc("/", indexPage)
+	http.HandleFunc("/redirect/to/", redirectTo)
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 
-func loop() {
-	x := float64(-1.09)
-
-	if x < 9 {
-		println("hello")
-	}
-}
+//func main() {
+//	Shortener()
+//}
+//
+//type Shortener interface {
+//	Shorten(url string) string
+//	Resolve(url string) string
+//}
+//
+//func Shorten() string {
+//
+//}
